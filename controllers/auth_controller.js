@@ -10,3 +10,5 @@ function getOauthParams(req) {
         consumer_secret: CONSUMER_SECRET
     }
 }
+
+module.exports = { getOauthParams };
