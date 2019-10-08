@@ -4,19 +4,19 @@ const qs = require('querystring');
 const AuthController = require('../controllers/auth_controller');
 const router = express.Router();
 
-router.post('/connect', function(req, res) {
-    let bodyParams = req.body,
-        token = bodyParams.token || "",
-        token_secret = bodyParams.token_secret || "",
+router.get('/tweets', function(req, res) {
+    let bodyParams = req.params,
         user_id = bodyParams.user_id || "",
         screen_name = bodyParams.screen_name || "",
-        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/users/show.json',
+        count = 100,
+        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/statuses/user_timeline.json',
 
-        qs = { user_id, screen_name },
-        oauth = AuthController.getOauthParams(bodyParams);
+        qs = { user_id, screen_name, count },
+        oauth = AuthController.getOauthParams();
 
-    oauth.token = token;
-    oauth.token_secret = token_secret;
+    oauth.token = bodyParams.oauth_token;
+    oauth.token_secret = bodyParams.oauth_token_secret;
+    oauth.verifier = bodyParams.oauth_verifier;
 
     request.get({
         url: url,
