@@ -1,5 +1,5 @@
-const CONSUMER_KEY = "T4MrAAp7iN2qfXvgl0mB2vNvd", // envvar
-      CONSUMER_SECRET = "UgaqFz4Lgad7t3KlEEjy2Mn2wJslDBVljHNGIYgkvTXVnccgOs", //envvar
+const CONSUMER_KEY = process.env.CONSUMER_KEY,
+      CONSUMER_SECRET = process.env.CONSUMER_SECRET,
       DEFAULT_AUTH_CALLBACK_URL = "http://127.0.0.1:3000/callback";
     
 function getOauthParams(params = {}) {
