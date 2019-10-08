@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/oauth_request', function(req, res) {
     const oauth = {
-        callback: "https://127.0.0.1:3000/callback",
+        callback: req.body.callbackUrl || "https://127.0.0.1:3000/callback",
         consumer_key: "T4MrAAp7iN2qfXvgl0mB2vNvd",
         consumer_secret: "UgaqFz4Lgad7t3KlEEjy2Mn2wJslDBVljHNGIYgkvTXVnccgOs"
     }
