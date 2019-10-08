@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "debug": "node -r dotenv/config app.js",
     "test": "jest"
   },
   "repository": {
