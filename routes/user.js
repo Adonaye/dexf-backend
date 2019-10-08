@@ -27,4 +27,21 @@ router.post('/connect', function(req, res) {
     });
 });
 
+router.post('/disconnect', function(req, res) {
+    let bodyParams = req.body,
+        token = bodyParams.token || "",
+        user_id = bodyParams.user_id || "",
+        url = 'https://api.twitter.com/1.1/oauth/invalidate_token.json',
+        oauth = AuthController.getOauthParams(bodyParams);
+
+    oauth.token = token;
+
+    request.get({
+        url: url,
+        oauth: oauth
+    }, function(err, httpResponse, body) {
+        res.status(httpResponse.statusCode).send({ user_id });
+    });
+});
+
 module.exports = router;
