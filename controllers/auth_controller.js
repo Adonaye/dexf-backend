@@ -6,18 +6,16 @@ const CONSUMER_KEY = "T4MrAAp7iN2qfXvgl0mB2vNvd", // envvar
     
 function getOauthParams(params = {}) {
     return {
-        callback: requestedCallbackUrl || DEFAULT_AUTH_CALLBACK_URL,
+        callback: params.callbackUrl || DEFAULT_AUTH_CALLBACK_URL,
         consumer_key: CONSUMER_KEY,
         consumer_secret: CONSUMER_SECRET
     }
 }
 
 function accessToken(oauthToken, oauthTokenVerifier, callback) {
-    let requestToken = oauthToken,
-        verifier = oauthTokenVerifier,
-        oauth = AuthController.getOauthParams();
-    oauth.token = requestToken,
-    oauth.verifier = verifier;
+    let oauth = AuthController.getOauthParams();
+    oauth.token = oauthToken,
+    oauth.verifier = oauthTokenVerifier;
 
     request.post({
         url: 'https://api.twitter.com/oauth/access_token',
