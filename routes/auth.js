@@ -6,7 +6,7 @@ const AuthController = require('../controllers/auth_controller');
 const router = express.Router();
 
 router.get('/oauth_request', function(req, res) {
-    const oauth = AuthController.getOauthParams(req);
+    const oauth = AuthController.getOauthParams();
     const url = "https://api.twitter.com/oauth/request_token";
     
     request.post({
