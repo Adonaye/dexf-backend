@@ -13,11 +13,14 @@ router.get('/oauth_request', function(req, res) {
         url: url,
         oauth: oauth
     }, function(err, httpResponse, body) {
+        if(err) {
+            res.status(httpResponse.statusCode).send(err);
+        }
         let parsedBody = qs.parse(body),
             oauthTokenQuery = qs.stringify({ oauth_token: parsedBody.oauth_token }),
-            authorizeUrl = `https://api.twitter.com/oauth/authenticate?${oauthTokenQuery}`;
+            response = { authorizeUrl: `https://api.twitter.com/oauth/authenticate?${oauthTokenQuery}` }
 
-        res.status(httpResponse.statusCode).send(authorizeUrl);
+        res.status(httpResponse.statusCode).json(response);
     });
 });
 
