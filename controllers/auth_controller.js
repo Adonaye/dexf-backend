@@ -31,4 +31,8 @@ function accessToken(oauthToken, oauthTokenVerifier, callback) {
     });
 }
 
+function verifyCredentials(accessToken, accessSecret) {
+    
+}
+
 module.exports = { getOauthParams, accessToken };
