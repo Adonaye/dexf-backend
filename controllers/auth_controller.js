@@ -27,7 +27,7 @@ function accessToken(oauthToken, oauthTokenVerifier, callback) {
             callback(err, null);
         }
         let parsedBody = qs.parse(body);
-        callback(parsedBody);
+        callback(null, parsedBody);
     });
 }
 
