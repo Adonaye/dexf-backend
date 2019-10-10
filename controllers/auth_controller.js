@@ -22,10 +22,10 @@ function accessToken(oauthToken, oauthTokenVerifier, callback) {
         oauth: oauth
     }, function(err, httpResponse, body) {
         if(err) {
-            callback(err, null);
+            callback(err, httpResponse, null);
         }
         let parsedBody = qs.parse(body);
-        callback(null, parsedBody);
+        callback(null, httpResponse, parsedBody);
     });
 }
 
