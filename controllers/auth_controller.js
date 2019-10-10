@@ -29,8 +29,21 @@ function accessToken(oauthToken, oauthTokenVerifier, callback) {
     });
 }
 
-function verifyCredentials(accessToken, accessSecret) {
-    
+function verifyCredentials(accessToken, accessSecret, callback) {
+    let oauth = AuthController.getOauthParams();
+    oauth.token = accessToken,
+    oauth.token_secret = accessSecret;
+
+    request.get({
+        url: 'https://api.twitter.com/oauth/access_token',
+        oauth: oauth
+    }, function(err, httpResponse, body) {
+        if(err) {
+            callback(err, httpResponse, null);
+        }
+        let user = body[0];
+        callback(null, httpResponse, user);
+    });
 }
 
-module.exports = { getOauthParams, accessToken };
+module.exports = { getOauthParams, accessToken, verifyCredentials };
