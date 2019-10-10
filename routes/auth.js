@@ -15,7 +15,7 @@ router.get('/oauth_request', function(req, res) {
     }, function(err, httpResponse, body) {
         let parsedBody = qs.parse(body),
             oauthTokenQuery = qs.stringify({ oauth_token: parsedBody.oauth_token }),
-            authorizeUrl = `https://api.twitter.com/oauth/authorize?${oauthTokenQuery}`;
+            authorizeUrl = `https://api.twitter.com/oauth/authenticate?${oauthTokenQuery}`;
 
         res.status(httpResponse.statusCode).send(authorizeUrl);
     });
