@@ -20,8 +20,7 @@ async function create(userId, screenName, accessToken, accessSecret) {
     return user;
 }
 
-async function connectWithSession(session, callback) {
-    const userId = session.user_id;
+async function connectWithUserId(userId, callback) {
     const user = await findById(userId);
     if (!user) {
         callback(null);

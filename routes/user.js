@@ -6,7 +6,7 @@ const UserController = require('../controllers/user_controller');
 const router = express.Router();
 
 router.post('/connect', function(req, res) {
-    let bodyParams = req.body,
+    /* let bodyParams = req.body,
         token = bodyParams.token || "",
         token_secret = bodyParams.token_secret || "",
         user_id = bodyParams.user_id || "",
@@ -25,7 +25,12 @@ router.post('/connect', function(req, res) {
         qs: qs
     }, function(err, httpResponse, body) {
         res.status(httpResponse.statusCode).send(body);
-    });
+    }); */
+
+    let userId = req.session.user_id;
+    if (userId) {
+        UserController.connectWithUserId()
+    }
 });
 
 router.post('/disconnect', function(req, res) {
