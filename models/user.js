@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
     id: String,
-    name: String,
     screenName: String,
-    profileImageUrl: String
+    accessToken: String,
+    accessSecret: String
 });
 
 const User = mongoose.model('user', UserSchema);
