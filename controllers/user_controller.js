@@ -7,7 +7,7 @@ async function findById(userId) {
 }
 
 async function create(userId, screenName, accessToken, accessSecret) {
-    let user = findById(userId);
+    let user = await findById(userId);
     if (!user) {
         user = await new UserModel.User({
             user_id: userId,
@@ -27,12 +27,12 @@ async function connectWithUserId(userId, callback) {
     }
     let accessToken = user.get('token'),
         accessSecret = user.get('token_secret');
-    connect(accessToken, accessSecret, callback);
+    connect(accessToken, accessSecret, user, callback);
 }
 
-function connectWithRequestToken(oauthToken, oauthTokenVerifier, callback) {
+async function connectWithRequestToken(oauthToken, oauthTokenVerifier, callback) {
     AuthController.accessToken(oauthToken, oauthTokenVerifier, 
-        (err, httpResponse, parsedBody) => {
+        async (err, httpResponse, parsedBody) => {
             if (err) {
                 callback(null);
             }
@@ -40,19 +40,19 @@ function connectWithRequestToken(oauthToken, oauthTokenVerifier, callback) {
                 screenName = parsedBody.screen_name,
                 accessToken = parsedBody.oauth_token,
                 accessSecret = parsedBody.oauth_token_secret;
-            create(userId, screenName, accessToken, accessSecret);
-            connect(accessToken, accessSecret, callback);
+            let user = await create(userId, screenName, accessToken, accessSecret);
+            connect(accessToken, accessSecret, user, callback);
         }
     );
 }
 
-function connect(accessToken, accessSecret, callback) {
+function connect(accessToken, accessSecret, user, callback) {
     AuthController.verifyCredentials(accessToken, accessSecret, 
-        (err, httpResponse, user) => {
+        (err, httpResponse, twitterUser) => {
             if (err) {
-                return null;
+                callback(null);
             }
-            callback(user);
+            callback(user, twitterUser);
         }
     );
 }
