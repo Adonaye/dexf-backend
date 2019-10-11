@@ -27,9 +27,22 @@ router.post('/connect', function(req, res) {
         res.status(httpResponse.statusCode).send(body);
     }); */
 
-    let userId = req.session.user_id;
+    let userId = req.session.user_id,
+        tokens = req.body,
+        userCallback = user => {
+            if (!user) {
+                req.session = null;
+                res.send("Error al buscar usuario.");
+            }
+            res.send(user);
+        }
     if (userId) {
-        UserController.connectWithUserId()
+        UserController.connectWithUserId(userId, userCallback);
+    } else if (tokens) {
+        UserController.connectWithRequestToken(tokens.oauth_token, 
+                tokens.oauth_token_verifier, userCallback);
+    } else {
+        res.status(500).send("No hay datos de identificacion de usuario.")
     }
 });
 
