@@ -1,3 +1,6 @@
+const request = require('request');
+const qs = require('querystring');
+
 const CONSUMER_KEY = process.env.CONSUMER_KEY,
       CONSUMER_SECRET = process.env.CONSUMER_SECRET,
       DEFAULT_AUTH_CALLBACK_URL = "http://127.0.0.1:3000/callback";
@@ -11,7 +14,7 @@ function getOauthParams(params = {}) {
 }
 
 function accessToken(oauthToken, oauthTokenVerifier, callback) {
-    let oauth = AuthController.getOauthParams();
+    let oauth = getOauthParams();
     oauth.token = oauthToken,
     oauth.verifier = oauthTokenVerifier;
 
@@ -28,7 +31,7 @@ function accessToken(oauthToken, oauthTokenVerifier, callback) {
 }
 
 function verifyCredentials(accessToken, accessSecret, callback) {
-    let oauth = AuthController.getOauthParams();
+    let oauth = getOauthParams();
     oauth.token = accessToken,
     oauth.token_secret = accessSecret;
 
