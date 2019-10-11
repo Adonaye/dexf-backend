@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node -r dotenv/config app.js",
-    "test": "jest --setupFiles dotenv/config"
+    "test": "jest --setupFiles dotenv/config --detectOpenHandles "
   },
   "repository": {
     "type": "git",
