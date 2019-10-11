@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const Keygrip = require('keygrip');
+const cors = require('cors');
 const app = express();
 
 require('dotenv').config();
@@ -11,6 +12,7 @@ var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
 var tweetsRoutes = require("./routes/tweets");
 
+app.use(cors());
 app.use(cookieSession({
   name: 'session',
   keys: new Keygrip(["salsa", "de", "tomate"])
