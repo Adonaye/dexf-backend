@@ -57,4 +57,4 @@ function connect(accessToken, accessSecret, callback) {
     );
 }
 
-module.exports = { findById, create, connectWithSession, connectWithRequestToken };
+module.exports = { findById, create, connectWithRequestToken, connectWithRequestToken };
