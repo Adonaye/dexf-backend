@@ -26,8 +26,8 @@ async function connectWithSession(session, callback) {
     if (!user) {
         callback(null);
     }
-    let accessToken = user.get('accessToken'),
-        accessSecret = user.get('accessSecret');
+    let accessToken = user.get('token'),
+        accessSecret = user.get('token_secret');
     connect(accessToken, accessSecret, callback);
 }
 
@@ -37,15 +37,18 @@ function connectWithRequestToken(oauthToken, oauthTokenVerifier, callback) {
             if (err) {
                 callback(null);
             }
-            let accessToken = parsedBody.oauth_token,
-                accessSecret = parsedBody.oauth_token_secret,
-
+            let userId = parsedBody.user_id,
+                screenName = parsedBody.screen_name,
+                accessToken = parsedBody.oauth_token,
+                accessSecret = parsedBody.oauth_token_secret;
+            create(userId, screenName, accessToken, accessSecret);
+            connect(accessToken, accessSecret, callback);
         }
     );
 }
 
 function connect(accessToken, accessSecret, callback) {
-
+    
 }
 
 module.exports = { findById, create, connectWithSession, connectWithRequestToken };
