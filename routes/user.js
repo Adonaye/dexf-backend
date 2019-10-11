@@ -32,7 +32,7 @@ router.post('/connect', function(req, res) {
         userCallback = user => {
             if (!user) {
                 req.session = null;
-                res.send("Error al buscar usuario.");
+                res.status(400).send("Error al buscar usuario.");
             }
             res.send(user);
         }
@@ -40,7 +40,7 @@ router.post('/connect', function(req, res) {
         UserController.connectWithUserId(userId, userCallback);
     } else if (tokens) {
         UserController.connectWithRequestToken(tokens.oauth_token, 
-                tokens.oauth_token_verifier, userCallback);
+                tokens.oauth_verifier, userCallback);
     } else {
         res.status(500).send("No hay datos de identificacion de usuario.")
     }

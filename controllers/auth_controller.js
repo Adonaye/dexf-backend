@@ -36,13 +36,12 @@ function verifyCredentials(accessToken, accessSecret, callback) {
     oauth.token_secret = accessSecret;
 
     request.get({
-        url: 'https://api.twitter.com/oauth/access_token',
+        url: 'https://api.twitter.com/1.1/account/verify_credentials.json',
         oauth: oauth
-    }, function(err, httpResponse, body) {
+    }, function(err, httpResponse, user) {
         if(err) {
             callback(err, httpResponse, null);
         }
-        let user = body[0];
         callback(null, httpResponse, user);
     });
 }
