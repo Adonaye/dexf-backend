@@ -48,7 +48,14 @@ function connectWithRequestToken(oauthToken, oauthTokenVerifier, callback) {
 }
 
 function connect(accessToken, accessSecret, callback) {
-    
+    AuthController.verifyCredentials(accessToken, accessSecret, 
+        (err, httpResponse, user) => {
+            if (err) {
+                return null;
+            }
+            callback(user);
+        }
+    );
 }
 
 module.exports = { findById, create, connectWithSession, connectWithRequestToken };
