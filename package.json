@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node -r dotenv/config app.js",
-    "test": "jest"
+    "test": "jest --setupFiles dotenv/config"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "jest": "^24.9.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
