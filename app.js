@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const MONGODB_URL = process.env.MONGODB_URL;
-mongoose.connect(MONGODB_URL)
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.log(JSON.stringify(err)));
 
 
