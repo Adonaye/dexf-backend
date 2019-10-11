@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const Keygrip = require('keygrip');
 const app = express();
 
 require('dotenv').config();
@@ -9,6 +11,11 @@ var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
 var tweetsRoutes = require("./routes/tweets");
 
+app.use(cookieSession({
+  name: 'session',
+  keys: new Keygrip(["salsa", "de", "tomate"])
+}));
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -16,7 +23,7 @@ app.use(bodyParser.json());
 
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .catch(err => console.log(JSON.stringify(err)));
+  .catch(err => console.log(JSON.stringify(err)));
 
 
 app.get('/', function (req, res) {
