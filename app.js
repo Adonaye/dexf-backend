@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
 
 var authRoutes = require("./routes/auth");
@@ -9,6 +10,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+
+const MONGODB_URL = process.env.MONGODB_URL;
+mongoose.connect(MONGODB_URL)
+    .catch(err => console.log(JSON.stringify(err)));
 
 
 app.get('/', function (req, res) {
