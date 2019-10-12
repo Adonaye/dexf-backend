@@ -6,30 +6,9 @@ const UserController = require('../controllers/user_controller');
 const router = express.Router();
 
 router.post('/connect', function (req, res) {
-    /* let bodyParams = req.body,
-        token = bodyParams.token || "",
-        token_secret = bodyParams.token_secret || "",
-        user_id = bodyParams.user_id || "",
-        screen_name = bodyParams.screen_name || "",
-        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/users/show.json',
-
-        qs = { user_id, screen_name },
-        oauth = AuthController.getOauthParams(bodyParams);
-
-    oauth.token = token;
-    oauth.token_secret = token_secret;
-
-    request.get({
-        url: url,
-        oauth: oauth,
-        qs: qs
-    }, function(err, httpResponse, body) {
-        res.status(httpResponse.statusCode).send(body);
-    }); */
-
     let userId = req.session.user_id,
         tokens = req.body,
-        userCallback = function(user, twitterUser) {
+        userCallback = (user, twitterUser) => {
             if (!user) {
                 req.session = null;
                 res.status(400).send("Error al buscar usuario.");
@@ -37,10 +16,11 @@ router.post('/connect', function (req, res) {
             }
             req.session.user_id = user.get('user_id');
             res.send(twitterUser);
+            return;
         }
     if (userId) {
         UserController.connectWithUserId(userId, userCallback);
-    } else if (tokens) {
+    } else if (tokens.oauth_token) {
         UserController.connectWithRequestToken(tokens.oauth_token,
             tokens.oauth_verifier, userCallback);
     } else {

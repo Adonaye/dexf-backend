@@ -12,10 +12,14 @@ var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
 var tweetsRoutes = require("./routes/tweets");
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://127.0.0.1:3001',
+  credentials: true,
+}));
 app.use(cookieSession({
   name: 'session',
-  keys: new Keygrip(["salsa", "de", "tomate"])
+  keys: new Keygrip(["salsa", "de", "tomate"]),
+  secure: false
 }));
 
 app.use(bodyParser.urlencoded({
@@ -27,10 +31,10 @@ const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => console.log(JSON.stringify(err)));
 
-
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('Hello World!' + req.session.count);
 });
+
 
 app.use('/', authRoutes);
 app.use('/', userRoutes);
