@@ -4,6 +4,7 @@ const app = express();
 
 var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
+var tweetsRoutes = require("./routes/tweets");
 
 app.use(bodyParser.urlencoded({
   extended: true

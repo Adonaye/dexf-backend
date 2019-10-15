@@ -1,28 +1,26 @@
 const express = require('express');
 const request = require('request');
-const qs = require('querystring');
 const AuthController = require('../controllers/auth_controller');
+const UserController = require('../controllers/user_controller');
 const router = express.Router();
 
-router.get('/tweets', function(req, res) {
-    let bodyParams = req.params,
-        user_id = bodyParams.user_id || "",
-        screen_name = bodyParams.screen_name || "",
+router.get('/tweets', async function (req, res) {
+    let userId = req.session.user_id,
         count = 100,
-        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/statuses/user_timeline.json',
-
-        qs = { user_id, screen_name, count },
+        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/statuses/user_timeline.json';
         oauth = AuthController.getOauthParams();
+    if (!userId) {
+        res.status(401).send("No hay sesion");
+    }
+    let user = await UserController.findById(userId);
 
-    oauth.token = bodyParams.oauth_token;
-    oauth.token_secret = bodyParams.oauth_token_secret;
-    oauth.verifier = bodyParams.oauth_verifier;
+    oauth.token = user.get('token');
+    oauth.token_secret = user.get('token_secret');
 
     request.get({
         url: url,
-        oauth: oauth,
-        qs: qs
-    }, function(err, httpResponse, body) {
+        oauth: oauth
+    }, function (err, httpResponse, body) {
         res.status(httpResponse.statusCode).send(body);
     });
 });
