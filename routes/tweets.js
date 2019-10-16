@@ -6,11 +6,15 @@ const router = express.Router();
 
 router.get('/tweets', async function (req, res) {
     let userId = req.session.user_id,
-        count = 100,
-        url = bodyParams.userUrl || 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+        qs = {
+            count: 100,
+            trim_user: true,
+        },        
+        url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
         oauth = AuthController.getOauthParams();
     if (!userId) {
         res.status(401).send("No hay sesion");
+        return;
     }
     let user = await UserController.findById(userId);
 
@@ -19,7 +23,8 @@ router.get('/tweets', async function (req, res) {
 
     request.get({
         url: url,
-        oauth: oauth
+        oauth: oauth,
+        qs: qs
     }, function (err, httpResponse, body) {
         res.status(httpResponse.statusCode).send(body);
     });
