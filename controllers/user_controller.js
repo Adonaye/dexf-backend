@@ -15,8 +15,13 @@ async function create(userId, screenName, accessToken, accessSecret) {
             token: accessToken,
             token_secret: accessSecret
         });
-        user.save();
+    } else {
+        await user.updateOne({
+            token: accessToken,
+            token_secret: accessSecret,
+        });
     }
+    await user.save();
     return user;
 }
 
